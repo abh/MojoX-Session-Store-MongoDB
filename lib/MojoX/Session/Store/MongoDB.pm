@@ -136,6 +136,10 @@ Load session from MongoDB.
 
 Delete session from MongoDB.
 
+=head1 CONTRIBUTE
+
+git repository etc at L<http://github.com/abh/MojoX-Session-Store-MongoDB>.
+
 =head1 AUTHOR
 
 Ask Bjørn Hansen <ask@develooper.com> 
