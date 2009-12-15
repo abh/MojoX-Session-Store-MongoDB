@@ -3,8 +3,14 @@ use Test::More;
 BEGIN {
     eval "use MongoDB";
     if ($@) {
-        plan skip_all => "MongoDB is required to run this test";
+        plan skip_all => "MongoDB.pm installed is required to run this test";
     }
+
+    eval "MongoDB::Connection->new(host => 'localhost');";
+    if ($@) {
+        plan skip_all => "MongoDB on localhost is required to run this test";
+    }
+
 }
 
 use FindBin qw/$Bin/;
@@ -44,3 +50,5 @@ ok($session->expire, 'expire');
 # the API is weird -- when expired flush just uses return;
 $session->flush;
 is($session->load($sid), undef, "get undef loading expired session");
+
+
