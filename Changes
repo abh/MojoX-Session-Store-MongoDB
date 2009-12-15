@@ -1,0 +1,6 @@
+MojoX::Session::Store::MongoDB release history
+
+0.50  December 14, 2009
+  - Initial release
+  - Partially based on MojoX::Session::Store::Memcached; thanks!
+
