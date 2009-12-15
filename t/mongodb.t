@@ -42,5 +42,5 @@ is($session->data('foo'), 'bar', 'foo is set right');
 ok($session->expire, 'expire');
 
 # the API is weird -- when expired flush just uses return;
-$session->flush, 'flush';
+$session->flush;
 is($session->load($sid), undef, "get undef loading expired session");
