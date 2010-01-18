@@ -12,7 +12,7 @@ use namespace::clean;
 __PACKAGE__->attr('mongodb');
 __PACKAGE__->attr('mongodb_coll');
 
-our $VERSION = '0.50';
+our $VERSION = '0.51';
 
 sub new {
     my ($class, $param) = @_;
@@ -39,15 +39,16 @@ sub create {
         data    => $data,
         expires => $expires,
     };
-    my $res =
-      $self->mongodb_coll->update({_id => $sid}, $new_data, {upsert => 1});
+    $self->mongodb_coll->update({_id => $sid}, $new_data, {upsert => 1});
     my $err = $self->mongodb->last_error;
     if ($err->{err}) {
         require Data::Dumper;
         warn Data::Dumper::Dumper($err);
         return 0;
     }
-    return $res;
+    else {
+        return 1;
+    }
 }
 
 sub update {

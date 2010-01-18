@@ -10,6 +10,7 @@ WriteMakefile(
         'Data::Dumper' => 0,
         'Test::More'   => 0,
         'Mojo'         => 0.991251,
+        'MojoX::Session' => 0.15,
         'namespace::clean' => 0,
     },
     (   $] >= 5.005

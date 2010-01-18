@@ -1,5 +1,8 @@
 MojoX::Session::Store::MongoDB release history
 
+0.51  January 18, 2010
+  - Update create() method to be compatible with MojoX::Sesssion 0.15.
+
 0.50  December 14, 2009
   - Initial release
   - Partially based on MojoX::Session::Store::Memcached; thanks!
