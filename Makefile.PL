@@ -21,5 +21,8 @@ WriteMakefile(
           )
         : ()
     ),
+    ($ExtUtils::MakeMaker::VERSION >= 6.3002
+      ? ('LICENSE'=> 'perl')
+      : ()),
     INC => '-I.'
 );
