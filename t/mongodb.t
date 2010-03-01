@@ -15,19 +15,19 @@ BEGIN {
 
 use FindBin qw/$Bin/;
 use lib ($Bin . "/../../../lib");
-plan tests => 13;
+plan tests => 15;
 
 use_ok('MojoX::Session');
 use_ok('MojoX::Session::Store::MongoDB');
 
-my $session = MojoX::Session->new(
+ok(my $session = MojoX::Session->new(
     store => MojoX::Session::Store::MongoDB->new(
         {   host       => '127.0.0.1',
             collection => 'sessions',
             database   => 'test',
         }
     )
-);
+), "new session object");
 
 # create
 ok(my $sid = $session->create(), 'create session');
@@ -49,6 +49,17 @@ ok($session->expire, 'expire');
 
 # the API is weird -- when expired flush just uses return;
 $session->flush;
+
+ok($session = MojoX::Session->new(
+    store => MojoX::Session::Store::MongoDB->new(
+        {   
+          mongodb => MongoDB::Connection->new(host => 'localhost')->get_database("test"),
+          collection => 'sessions',
+        }
+    )
+), "new session with MongoDB object");
+
+
 is($session->load($sid), undef, "get undef loading expired session");
 
 

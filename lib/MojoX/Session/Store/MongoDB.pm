@@ -12,7 +12,7 @@ use namespace::clean;
 __PACKAGE__->attr('mongodb');
 __PACKAGE__->attr('mongodb_coll');
 
-our $VERSION = '0.51';
+our $VERSION = '0.52';
 
 sub new {
     my ($class, $param) = @_;
@@ -23,9 +23,9 @@ sub new {
     my $database   = delete $param->{database};
     my $collection = delete $param->{collection};
     croak "database and collection parameters required"
-      unless $database and $collection;
+      unless ($database or $param->{mongodb}) and $collection;
 
-    $self->mongodb(MongoDB::Connection->new($param)->get_database($database));
+    $self->mongodb($param->{mongodb} || MongoDB::Connection->new($param)->get_database($database));
     $self->mongodb_coll($self->mongodb->get_collection($collection));
 
     return $self;
@@ -120,6 +120,9 @@ L<MojoX::Session::Store>.
 C<new> uses the database and collection parameters for the database
 name and the collection name respectively. All other parameters are
 passed to C<MongoDB::Connection->new()>.
+
+Instead of the C<database> name you can also pass in a C<mongodb>
+parameter with a L<MongoDB::Database> object.
 
 =head2 C<create>
 
