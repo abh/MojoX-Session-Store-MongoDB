@@ -22,13 +22,28 @@ sub new {
     $param ||= {};
     my $database   = delete $param->{database};
     my $collection = delete $param->{collection};
+    my $username   = delete $param->{username};
+    my $password   = delete $param->{password};
     croak "database and collection parameters required"
       unless ($database or $param->{mongodb}) and $collection;
 
-    $self->mongodb($param->{mongodb} || MongoDB::Connection->new($param)->get_database($database));
+    $self->mongodb($param->{mongodb} || $self->_mongodb_obj($param, $database, $username, $password));
     $self->mongodb_coll($self->mongodb->get_collection($collection));
 
     return $self;
+}
+
+sub _mongodb_obj {
+    my ($self, $param, $database, $username, $password) = @_;
+
+    my $mongodb = MongoDB::Connection->new($param);
+    $mongodb->authenticate(
+        $database,
+        $username,
+        $password,
+    ) if $username;
+
+    return $mongodb->get_database($database);
 }
 
 sub create {
